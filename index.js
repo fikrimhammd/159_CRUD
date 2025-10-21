@@ -81,4 +81,19 @@ app.put("/api/mahasiswa/:id", (req, res) => {
   );
 });
 
+// ✅ DELETE hapus data mahasiswa
+app.delete("/api/mahasiswa/:id", (req, res) => {
+  const userId = req.params.id;
+  db.query("DELETE FROM biodata WHERE id = ?", [userId], (err, results) => {
+    if (err) {
+      console.error("Database Error:", err);
+      return res.status(500).json({ message: "Database Error" });
+    }
+    res.json({ message: "Mahasiswa berhasil dihapus" });
+  });
+});
 
+// Jalankan server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
