@@ -40,3 +40,26 @@ app.get("/api/mahasiswa", (req, res) => {
   });
 });
 
+// ✅ POST tambah mahasiswa
+app.post("/api/mahasiswa", (req, res) => {
+  const { nama, alamat, agama } = req.body;
+
+  if (!nama || !alamat || !agama) {
+    return res
+      .status(400)
+      .json({ message: "Nama, alamat, dan agama harus diisi" });
+  }
+
+  db.query(
+    "INSERT INTO biodata (nama, alamat, agama) VALUES (?, ?, ?)",
+    [nama, alamat, agama],
+    (err, results) => {
+      if (err) {
+        console.error("Database Error:", err);
+        return res.status(500).json({ message: "Database Error" });
+      }
+      res.status(201).json({ message: "Mahasiswa berhasil ditambahkan" });
+    }
+  );
+});
+
