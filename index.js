@@ -29,3 +29,14 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// ✅ GET semua data mahasiswa
+app.get("/api/mahasiswa", (req, res) => {
+  db.query("SELECT * FROM biodata", (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).json({ error: "Error fetching data" });
+    }
+    res.json(results);
+  });
+});
+
